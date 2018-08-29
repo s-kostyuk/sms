@@ -361,7 +361,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine />
-              <IncludePath>../Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Inc; ../Drivers/STM32F1xx_HAL_Driver/Inc; ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy; ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3; ../Drivers/CMSIS/Device/ST/STM32F1xx/Include; ../Middlewares/Third_Party/FreeRTOS/Source/include; ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS; ../Drivers/CMSIS/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -423,6 +423,11 @@
               <FileName>freertos.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/freertos.c</FilePath>
+              
+            </File><File>
+              <FileName>stm32f1xx_hal_timebase_TIM.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/stm32f1xx_hal_timebase_TIM.c</FilePath>
               
             </File></Files>
         </Group>
