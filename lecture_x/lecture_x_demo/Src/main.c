@@ -60,15 +60,24 @@
 /* Private variables ---------------------------------------------------------*/
 osThreadId pb13BlinkerTaskHandle;
 osThreadId pb14BlinkerTaskHandle;
+
+typedef struct {
+  GPIO_TypeDef *GPIOx;
+  uint16_t GPIO_Pin;
+  uint32_t delay;
+} BlinkerArgumens;
+
+BlinkerArgumens argsPB13 = {GPIOB, GPIO_PIN_13, 1000};
+BlinkerArgumens argsPB14 = {GPIOB, GPIO_PIN_14, 300};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-void StartPB13BlinkerTask(void const * argument);
-void StartPB14BlinkerTask(void const * argument);
+void StartBlinkerTask(void const * argument);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -121,11 +130,10 @@ int main(void)
   
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
-	osThreadDef(pb13BlinkerTask, StartPB13BlinkerTask, osPriorityNormal, 0, 128);
-  osThreadDef(pb14BlinkerTask, StartPB14BlinkerTask, osPriorityNormal, 0, 128);
+	osThreadDef(blinkerTask, StartBlinkerTask, osPriorityNormal, 0, 128);
 	
-	pb13BlinkerTaskHandle = osThreadCreate(osThread(pb13BlinkerTask), NULL);
-  pb14BlinkerTaskHandle = osThreadCreate(osThread(pb14BlinkerTask), NULL);
+	pb13BlinkerTaskHandle = osThreadCreate(osThread(blinkerTask), &argsPB13);
+  pb14BlinkerTaskHandle = osThreadCreate(osThread(blinkerTask), &argsPB14);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
@@ -224,23 +232,13 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void StartPB13BlinkerTask(void const * argument)
+void StartBlinkerTask(void const * argument)
 {
-  const int delay = 1000;
+  const BlinkerArgumens * pArgumens = (const BlinkerArgumens *)argument;
   while(1)
   {
-    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_13);
-    osDelay(delay);
-  }
-}
-
-void StartPB14BlinkerTask(void const * argument)
-{
-  const int delay = 300;
-  while(1)
-  {
-    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
-    osDelay(delay);
+    HAL_GPIO_TogglePin(pArgumens->GPIOx, pArgumens->GPIO_Pin);
+    osDelay(pArgumens->delay);
   }
 }
 /* USER CODE END 4 */
